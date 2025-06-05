@@ -1,0 +1,30 @@
+{
+  "name": "pizp",
+  "version": "1.0.0",
+  "description": "Sistema para la creación de reportes sobre delitos  en Guatemala",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "PIZP",
+    "Security",
+    "Maps",
+    "Guatemala",
+    "Noj"
+  ],
+  "author": "El grupo y Arrecis",
+  "license": "MIT",
+  "dependencies": {
+    "argon2": "^0.43.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "express-rate-limit": "^7.5.0",
+    "express-validator": "^7.2.1",
+    "helmet": "^8.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.15.1",
+    "morgan": "^1.10.0"
+  }
+}
