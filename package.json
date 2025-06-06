@@ -2,9 +2,11 @@
   "name": "pizp",
   "version": "1.0.0",
   "description": "Sistema para la creación de reportes sobre delitos  en Guatemala",
+  "type": "module",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "node --watch index.js"
   },
   "keywords": [
     "PIZP",
