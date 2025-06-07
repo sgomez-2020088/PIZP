@@ -7,107 +7,227 @@
 	},
 	"item": [
 		{
-			"name": "Register",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "urlencoded",
-					"urlencoded": [
-						{
-							"key": "name",
-							"value": "Sergio",
-							"type": "text"
+			"name": "AUTH",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Jefferson",
+									"type": "text"
+								},
+								{
+									"key": "surname",
+									"value": "Sican",
+									"type": "text"
+								},
+								{
+									"key": "phone",
+									"value": "11223344",
+									"type": "text"
+								},
+								{
+									"key": "DPI",
+									"value": "3637171100101",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "jsican-2023321@kinal.edu.gt",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "Elote.2k25/",
+									"type": "text"
+								}
+							]
 						},
-						{
-							"key": "surname",
-							"value": "Gomez",
-							"type": "text"
-						},
-						{
-							"key": "phone",
-							"value": "12341234",
-							"type": "text"
-						},
-						{
-							"key": "DPI",
-							"value": "1231234543423",
-							"type": "text"
-						},
-						{
-							"key": "email",
-							"value": "sgomez-202082@kinal.edu.gt",
-							"type": "text"
-						},
-						{
-							"key": "password",
-							"value": "Elote.2k25/",
-							"type": "text"
+						"url": {
+							"raw": "localhost:3641/v1/auth/register",
+							"host": [
+								"localhost"
+							],
+							"port": "3641",
+							"path": [
+								"v1",
+								"auth",
+								"register"
+							]
 						}
-					]
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "localhost:3641/v1/auth/register",
-					"host": [
-						"localhost"
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = JSON.parse(responseBody)\r",
+									"postman.setGlobalVariable(\"token\",data.token)"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
 					],
-					"port": "3641",
-					"path": [
-						"v1",
-						"auth",
-						"register"
-					]
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "password",
+									"value": "123.sd/",
+									"type": "text"
+								},
+								{
+									"key": "DPI",
+									"value": "1234567891234",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:3641/v1/auth/login",
+							"host": [
+								"localhost"
+							],
+							"port": "3641",
+							"path": [
+								"v1",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		},
 		{
-			"name": "Login",
-			"event": [
+			"name": "REPORT",
+			"item": [
 				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"var data = JSON.parse(responseBody)\r",
-							"postman.setGlobalVariable(\"token\",data.token)"
+					"name": "Add report",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
 						],
-						"type": "text/javascript",
-						"packages": {}
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "urlencoded",
-					"urlencoded": [
-						{
-							"key": "password",
-							"value": "Elote.2k25/",
-							"type": "text"
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "typeCrime",
+									"value": "asalto",
+									"type": "text"
+								},
+								{
+									"key": "address",
+									"value": "por mi casa en zona 7",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "fue tremendo el asalto ",
+									"type": "text"
+								}
+							]
 						},
-						{
-							"key": "DPI",
-							"value": "1928376543212",
-							"type": "text"
+						"url": {
+							"raw": "localhost:3641/v1/report/add",
+							"host": [
+								"localhost"
+							],
+							"port": "3641",
+							"path": [
+								"v1",
+								"report",
+								"add"
+							]
 						}
-					]
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "localhost:3641/v1/auth/login",
-					"host": [
-						"localhost"
-					],
-					"port": "3641",
-					"path": [
-						"v1",
-						"auth",
-						"login"
-					]
+				{
+					"name": "Add report Copy",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "localhost:3641/v1/report/get",
+							"host": [
+								"localhost"
+							],
+							"port": "3641",
+							"path": [
+								"v1",
+								"report",
+								"get"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete report",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "localhost:3641/v1/report/delete/6844b33aed6129d37f6648c2",
+							"host": [
+								"localhost"
+							],
+							"port": "3641",
+							"path": [
+								"v1",
+								"report",
+								"delete",
+								"6844b33aed6129d37f6648c2"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		}
 	]
 }
