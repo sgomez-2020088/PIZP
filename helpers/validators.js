@@ -17,3 +17,10 @@ export const loginValidator = [
     body('password', 'Password cannot be empty').notEmpty(),
     validateErrors
 ]
+
+export const reportValidator = [
+    body('typeCrime', 'Type Crime cannot be empty').notEmpty(),
+    body('address', 'Address cannot be empty').notEmpty(),
+    body('description', 'Description cannot be empty').notEmpty(),
+    validateErrors
+]
