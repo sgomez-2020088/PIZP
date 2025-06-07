@@ -24,3 +24,4 @@ export const reportValidator = [
     body('description', 'Description cannot be empty').notEmpty(),
     validateErrors
 ]
+
