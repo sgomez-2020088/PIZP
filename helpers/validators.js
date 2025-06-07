@@ -4,7 +4,7 @@ import { exitEmailUser,existDpi } from './db.validator.js'
 
 export const registerValidator = [
     body('name', 'Name cannot be empty').notEmpty(),
-    body('surname', 'Name cannot be empty').notEmpty(),
+    body('surname', 'surname cannot be empty').notEmpty(),
     body('phone', 'Phone cannot be empty').notEmpty().isMobilePhone(),
     body('DPI', 'DPI cannot be empty').notEmpty().isLength({max:13}).withMessage('DPI must be 13 char').isLength({min:13}).withMessage('DPI must be 13 char').custom(existDpi),
     body('email', 'Email cannot be empty').notEmpty().isEmail().custom(exitEmailUser),
