@@ -44,6 +44,14 @@ const userSchema = Schema(
         status: {
             type: Boolean,
             defualt: true
+        },
+        verificationCode:{
+            type: String,
+            default: null
+        },
+        verificationCodeExpiration:{
+            type: Date,
+            default:null
         }
     }
 )
