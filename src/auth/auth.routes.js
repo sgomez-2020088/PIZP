@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { register,login } from './auth.controller.js'
+import { register,login, verifyCode } from './auth.controller.js'
 import { loginValidator, registerValidator } from '../../helpers/validators.js'
 import { cuiIsValid } from '../../middlewares/validCui.js'
 
@@ -9,5 +9,7 @@ const api = Router()
 api.post('/register',[registerValidator, cuiIsValid], register)
 
 api.post('/login', [loginValidator], login)
+
+api.post('/verifyCode', verifyCode)
 
 export default api
