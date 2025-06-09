@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "05aacf76-cef4-4d87-a8dc-5c5df7c5873c",
+		"_postman_id": "602834d6-d32e-4dec-b2f7-edf1c545b264",
 		"name": "PIZP",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "37951897"
+		"_exporter_id": "37951891"
 	},
 	"item": [
 		{
@@ -45,6 +45,41 @@
 								{
 									"key": "password",
 									"value": "Elote.2k25/",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:3641/v1/auth/register",
+							"host": [
+								"localhost"
+							],
+							"port": "3641",
+							"path": [
+								"v1",
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "code",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "DPI",
+									"value": "Jefferson",
+									"type": "text"
+								},
+								{
+									"key": "verificationCode",
+									"value": "Sican",
 									"type": "text"
 								}
 							]
