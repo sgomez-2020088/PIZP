@@ -13,7 +13,7 @@ export async function twoFactorAuth(req, res, next) {
         await sendVerificationEmail(user.email, verificationCode)
 
         user.verificationCode = verificationCode
-        user.verificationCodeExpiration = new Date(Date.now() + 15 * 60 * 1000)
+        user.verificationCodeExpiration = new Date(Date.now() + 2 * 60 * 1000)
         await user.save()
 
         return res.status(400).send({ message: 'Please verify your email', success: false })
