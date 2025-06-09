@@ -1,7 +1,7 @@
 import nodemailer from 'nodemailer'
 import crypto from 'crypto'
 
-//Configuracion de emisor de correos
+
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -10,13 +10,10 @@ const transporter = nodemailer.createTransport({
     }
 })
 
-//Funcion para enviar correos
-export async function sendVerificationEmail(email){
-    
-    const verificationCode = crypto.randomBytes(3).toString('hex')
-
-    //contenido de correo
-    const mailContent ={
+// Función para enviar correos
+export async function sendVerificationEmail(email, verificationCode) {
+    // Contenido del correo
+    const mailContent = {
         from: 'pizpcodesender@gmail.com',
         to: email,
         subject: 'Código de verificación',
@@ -26,10 +23,10 @@ export async function sendVerificationEmail(email){
     try {
         await transporter.sendMail(mailContent)
         console.log('Correo enviado exitosamente')
-        return verificationCode
     } catch (err) {
         console.error(err)
         throw new Error('Error al enviar el correo')
     }
 }
+
 
