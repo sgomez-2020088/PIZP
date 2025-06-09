@@ -41,56 +41,47 @@ export const register = async (req, res) => {
 
 export const register = async (req, res) => {
     try {
-        const data = req.body;
+        const data = req.body
 
-        // Verificar si el usuario ya existe en la base de datos
-        const existingUser = await User.findOne({ DPI: data.DPI });
-        if (existingUser) return res.status(400).send({ success: false, message: "User already exists" });
+        const existingUser = await User.findOne({ DPI: data.DPI })
+        if (existingUser) return res.status(400).send({ success: false, message: "User already exists" })
 
-        // Encriptar la contraseña antes de guardarla
-        const encryptedPassword = await encrypt(data.password);
+        const encryptedPassword = await encrypt(data.password)
 
-        let verificationCode;
-        const verificationCodeExpiration = new Date(Date.now() + 2 * 60 * 1000); // 2 minutos
+        let verificationCode
+        const verificationCodeExpiration = new Date(Date.now() + 2 * 60 * 1000)
 
-        // Verificar si ya existe un código de verificación para este usuario
-        const user = await User.findOne({ email: data.email });
+        const user = await User.findOne({ email: data.email })
 
         if (!user || new Date() > user.verificationCodeExpiration) {
-            // Si no hay código de verificación o si ha expirado, generar uno nuevo
-            verificationCode = Math.random().toString(36).substring(2, 8).toUpperCase();
+            verificationCode = Math.random().toString(36).substring(2, 8).toUpperCase()
 
-            // Enviar el código de verificación al correo del usuario
-            await sendVerificationEmail(data.email, verificationCode);
-            console.log("📤 Nuevo código generado y enviado:", verificationCode);
+            await sendVerificationEmail(data.email, verificationCode)
+            console.log("📤 Nuevo código generado y enviado:", verificationCode)
         } else {
-            // Si ya existe un código de verificación válido, usar el mismo
             verificationCode = user.verificationCode;
-            console.log("✅ Código ya existente (y válido):", verificationCode);
         }
 
-        // Crear el nuevo usuario y guardarlo en la base de datos (sin activar aún)
         const newUser = new User({
             ...data,
             password: encryptedPassword,
             role: 'USER',
-            status: false,  // No activado aún
-            verificationCode,  // Código de verificación
-            verificationCodeExpiration,  // Tiempo de expiración del código
-        });
+            status: false,  
+            verificationCode,  
+            verificationCodeExpiration,  
+        })
 
-        await newUser.save();  // Ahora guardamos al usuario en la base de datos
+        await newUser.save()
 
-        // Enviar una respuesta indicando que el código fue enviado
         return res.send({
             success: true,
             message: 'Verification code sent to your email or reused successfully',
-        });
+        })
     } catch (err) {
         console.error(err);
-        return res.status(500).send({ success: false, message: 'General Error', err });
+        return res.status(500).send({ success: false, message: 'General Error', err })
     }
-};
+}
 
 
 
