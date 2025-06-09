@@ -23,6 +23,8 @@ export const validateJwt = async(req, res, next)=>{
     try{
         let secretKey = process.env.SECRET_KEY
         let { authorization } = req.headers
+
+        
         if(!authorization) return res.status(401).send({message: 'Unauthorized'})
 
 
@@ -37,8 +39,10 @@ export const validateJwt = async(req, res, next)=>{
         req.user = {
             id: validateUser._id,
             email: validateUser.email,
-            role: validateUser.role
+            role: validateUser.role,
+            DPI: validateUser.DPI
         }
+
         next()
     }catch(err){
         console.error(err)
