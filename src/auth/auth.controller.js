@@ -58,12 +58,12 @@ export const login = async (req, res) => {
 
         
         // Generar código y mandarlo al correo
-        const code = Math.random().toString(36).substring(2, 8).toUpperCase();
-        user.verificationCode = code;
-        user.verificationCodeExpiration = new Date(Date.now() + 2 * 60 * 1000); // 2 minutos
-        await user.save();
+        const code = Math.random().toString(36).substring(2, 8).toUpperCase()
+        user.verificationCode = code
+        user.verificationCodeExpiration = new Date(Date.now() + 2 * 60 * 1000) 
+        await user.save()
     
-        console.log("📤 Código generado y guardado:", code);
+        console.log("📤 Código generado y guardado:", code)
 
         await sendVerificationEmail(user.email, code)
 
@@ -74,6 +74,7 @@ export const login = async (req, res) => {
         return res.status(200).send({
             success: true,
             message: "Verification code sent to your email",
+            DPI: user.DPI,
             token
         })
     } catch (err) {
