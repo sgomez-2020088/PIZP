@@ -1,116 +1,74 @@
-import {encrypt, checkPassword} from "../../utils/encrypt.js"
-import { generateJwt } from "../../utils/jwt.js"
-import { sendVerificationEmail } from "../../utils/sendEmail.js"
+import { encrypt } from "../../utils/encrypt.js"; 
+import { sendVerificationEmail } from "../../utils/sendEmail.js";
 import User from "../user/user.model.js"
 
-export const register = async(req,res) =>{
+export const preRegister = async (req, res) => {
     try {
-        let data = req.body
+        const { name, phone, DPI, email, password, surname } = req.body
 
-        let user = new User(data)
-        user.role = 'USER'
-        user.status = true
-        user.password = await encrypt(user.password)
-        
-        await user.save()
-        return res.send({success:true, message:'User successfully registered'})
-    } catch (err) {
-        console.error(err)
-        return res.status(500).send({success:false, message:'General Error',err})
-    }
-}
-/*
-export const login = async(req,res) =>{
-    try {
-        let{DPI, password} = req.body
-        let user = await User.findOne(
-            {
-                DPI
-            }
-        )
-        if(!user) return res.status(404).send({success: false, message:'User not found'})
-        if(user.status === false) return res.status(404).send({success: false, message:'User not found'})
-        if(user && await checkPassword(user.password, password)){
-            let loggedUser = {
-                uid: user._id,
-                username: user.username,
-                role: user.role,
-                status: user.status
-            }
-            let token = await generateJwt(loggedUser)
-            return res.send({success: true, message:`Welcome ${user.name}`,loggedUser, token})
-        }
-        return res.status(404).send({success: false, message:'Wrong information'})
-    } catch (err) {
-        console.error(err)
-        return res.status(500).send({success:false, message: 'General Error',err})
-    }
-}*/
+        let existingUser = await User.findOne({ DPI })
 
-export const login = async (req, res) => {
-    try {
-        const { DPI, password } = req.body
-        const user = await User.findOne({ DPI })
-        if (!user) return res.status(404).send({ success: false, message: 'User not found' })
+        if (existingUser) return res.status(400).send({ success: false, message: 'DPI already registered' });
 
-        const passwordValid = await checkPassword(user.password, password)
-        if (!passwordValid) return res.status(401).send({ success: false, message: 'Invalid credentials' })
+        const verificationCode = await sendVerificationEmail(email)
 
-        
-        // Generar código y mandarlo al correo
-        const code = Math.random().toString(36).substring(2, 8).toUpperCase()
-        user.verificationCode = code
-        user.verificationCodeExpiration = new Date(Date.now() + 2 * 60 * 1000) 
-        await user.save()
-    
-        console.log("📤 Código generado y guardado:", code)
+        let user = new User({
+            name,
+            surname,
+            phone,
+            DPI,
+            email,
+            password: await encrypt(password),
+            role: 'USER',
+            status: false,
+            verificationCode,
+            verificationCodeExpiration: new Date(Date.now() + 15 * 60 * 1000)
+        })
 
-        await sendVerificationEmail(user.email, code)
-
-        // Generar el token para verificarlo luego
-        const payload = { uid: user._id, email: user.email, DPI: user.DPI, role: user.role }
-        const token = await generateJwt(payload)
+        await user.save();
 
         return res.status(200).send({
             success: true,
-            message: "Verification code sent to your email",
+            message: 'Verification code sent to your email',
             DPI: user.DPI,
-            token
         })
+
     } catch (err) {
-        console.error(err)
-        return res.status(500).send({ success: false, message: "Login error", error: err.message })
+        console.error(err);
+        return res.status(500).send({
+            success: false,
+            message: 'Error during user registration',
+            err
+        })
     }
 }
 
-
-export const verifyCode = async (req, res) => {
+export const verifyRegisterCode = async (req, res) => {
     try {
-        const { verificationCode } = req.body;
-        const { DPI } = req.user// Obtenido del middleware validateJwt
-        
+        const { DPI, verificationCode } = req.body
 
         const user = await User.findOne({ DPI })
-        if (!user) return res.status(404).send({ message: 'User not found', success: false })
-
-        console.log("✅ Código recibido del usuario:", verificationCode);
-        console.log("🗃️  Código guardado en la DB:", user.verificationCode);
+        if (!user) return res.status(404).send({ success: false, message: 'User not found' })
 
         if (user.verificationCode !== verificationCode) {
-    return res.status(400).send({ message: 'Invalid verification code', success: false });
-}
+            return res.status(400).send({ success: false, message: 'Invalid verification code' })
+        }
 
-        if (new Date() > user.verificationCodeExpiration) return res.status(400).send({ message: 'Verification code expired', success: false })
-    
-        // Verificación exitosa
+        if (new Date() > user.verificationCodeExpiration) {
+            return res.status(400).send({ success: false, message: 'Verification code expired' })
+        }
+
+
         user.status = true
         user.verificationCode = null
         user.verificationCodeExpiration = null
         await user.save()
 
-        return res.send({ success: true, message: 'El código es correcto' })
+        return res.send({ success: true, message: 'Account activated successfully' })
+
     } catch (err) {
         console.error(err);
-        return res.status(500).send({ message: 'Error verifying code', success: false })
+        return res.status(500).send({ success: false, message: 'Error verifying code', error: err.message });
     }
 }
+
