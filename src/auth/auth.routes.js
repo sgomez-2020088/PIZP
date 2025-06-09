@@ -11,6 +11,6 @@ api.post('/register',[registerValidator, cuiIsValid], register)
 
 api.post('/login', [loginValidator], login)
 
-api.post('/verifyCode',[validateJwt], verifyCode)
+api.post('/verifyCode', verifyCode)
 
 export default api

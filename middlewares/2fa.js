@@ -1,25 +1,22 @@
 import User from '../models/User.js'
 import { sendVerificationEmail } from '../utils/sendEmail.js'
 
-export async function twoFactorAuth(req, res,next){
+export async function twoFactorAuth(req, res, next) {
     const { DPI } = req.body
 
     let user = await User.findOne({ DPI })
-    if(!user) return res.status(404).send({message: 'User not found', success: false})
+    if (!user) return res.status(404).send({ message: 'User not found', success: false })
 
-    if(!user.verificationCode){
-        const verificationCode = await sendVerificationEmail(user.email)
+    if (!user.verificationCode || new Date() > user.verificationCodeExpiration) {
+        const verificationCode = Math.random().toString(36).substring(2, 8).toUpperCase()
 
-        user.verificationCode = verificationCode 
+        await sendVerificationEmail(user.email, verificationCode)
+
+        user.verificationCode = verificationCode
         user.verificationCodeExpiration = new Date(Date.now() + 15 * 60 * 1000)
         await user.save()
 
-        return res.status(400).send({message:'Please verify you email', success: false})
+        return res.status(400).send({ message: 'Please verify your email', success: false })
     }
-
-    if(new Date() > user.verificationCodeExpiration){
-        return res.status(400).send({message: 'Verification code expired, please request a new one', success: false})
-    }
-
     next()
 }
