@@ -1,13 +1,16 @@
-import { Router } from 'express';
-import { verifyCode, preRegister } from './auth.controller.js';
-import { registerValidator } from '../../helpers/validators.js';
-import { cuiIsValid } from '../../middlewares/validCui.js';
+import { Router } from 'express'
+import { register,login, verifyCode } from './auth.controller.js'
+import { loginValidator, registerValidator } from '../../helpers/validators.js'
+import { cuiIsValid } from '../../middlewares/validCui.js'
+import { validateJwt } from '../../middlewares/validate.jwt.js'
 
-const api = Router();
+const api = Router()
 
-// PUBLIC ROUTES
-api.post('/register', [cuiIsValid], preRegister);
+//PUBLIC ROUTES
+api.post('/register',[registerValidator, cuiIsValid], register)
 
-api.post('/verifyCode', verifyCode);
+api.post('/login', [loginValidator], login)
 
-export default api;
+api.post('/verifyCode', verifyCode)
+
+export default api
