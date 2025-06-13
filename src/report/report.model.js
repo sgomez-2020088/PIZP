@@ -12,6 +12,14 @@ const reportSchema = Schema(
             required: [true, 'Address is required'],
             maxLength: [100, 'Can´t be overcome 100 characters']
         },
+        lat:{
+            type: Number,
+            required:[true, 'Latitude is required'],
+        },
+        lng:{
+            type: Number,
+            required:[true, 'Longitude is required'],
+        },
         description: {
             type: String,
             required: [true, 'Description is required'],
