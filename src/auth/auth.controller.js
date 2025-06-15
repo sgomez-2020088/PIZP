@@ -99,7 +99,7 @@ export const login = async (req, res) => {
         const payload = { uid: user._id, email: user.email, DPI: user.DPI, role: user.role }
         const token = await generateJwt(payload)
 
-        return res.send({ success: true, message: `Welcome ${user.name}`, token, DPI: user.DPI })
+        return res.send({ success: true, message: `Welcome ${user.name}`, token, })
     } catch (err) {
         console.error(err)
         return res.status(500).send({ success: false, message: "Login error", error: err.message })
