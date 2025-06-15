@@ -23,7 +23,7 @@ export const addReport = async (req, res) =>{
 export const getReports = async (req, res) => {
     try {
         const reports = await Report.find()
-        .populate('user', 'name surname email -_id')
+        .populate('user', 'name surname email')
         
         return res.status(200).send({ message: 'Reports retrieved successfully', success: true, reports })
     } catch (err) {
