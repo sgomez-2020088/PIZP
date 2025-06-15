@@ -37,7 +37,7 @@ export const register = async (req, res) => {
         console.error(err)
         return res.status(500).send({ success: false, message: 'General Error', err })
     }
-}*/
+}*/ //Borra este
 
 export const register = async (req, res) => {
     try {
@@ -57,7 +57,8 @@ export const register = async (req, res) => {
             verificationCode = Math.random().toString(36).substring(2, 8).toUpperCase()
 
             await sendVerificationEmail(data.email, verificationCode)
-            console.log("📤 Nuevo código generado y enviado:", verificationCode)
+
+           // console.log("📤 Nuevo código generado y enviado:", verificationCode) Borra este 
         } else {
             verificationCode = user.verificationCode;
         }
@@ -83,7 +84,6 @@ export const register = async (req, res) => {
     }
 }
 
-//error de git 
 
 export const login = async (req, res) => {
     try {
@@ -114,8 +114,8 @@ export const verifyCode = async (req, res) => {
         const user = await User.findOne({ DPI })
         if (!user) return res.status(404).send({ message: 'User not found', success: false })
 
-        console.log("✅ Código recibido del usuario:", verificationCode)
-        console.log("🗃️  Código guardado en la DB:", user.verificationCode)
+        // console.log("✅ Código recibido del usuario:", verificationCode) Borra este 
+        // console.log("🗃️  Código guardado en la DB:", user.verificationCode) Borra este 
 
         if (user.verificationCode !== verificationCode) {
             return res.status(400).send({ message: 'Invalid verification code', success: false })
@@ -134,5 +134,39 @@ export const verifyCode = async (req, res) => {
     } catch (err) {
         console.error(err)
         return res.status(500).send({ message: 'Error verifying code', success: false })
+    }
+}
+
+
+export const resendCode = async (req, res) =>{
+    try {
+        const {DPI} = req.body
+
+        const user = await User.findOne({DPI})
+        if(!user) return res.status(404).send({message: 'User not found', success: false})
+        
+        if(new Date() > user.verificationCodeExpiration || !user.verificationCode) {
+            const newVerificationCode = Math.random().toString(36).substring(2,8).toUpperCase()
+
+            user.verificationCode = newVerificationCode
+            user.verificationCodeExpiration = new Date(Date.now() + 2 * 60 * 1000)
+
+            await user.save()
+
+            await sendVerificationEmail(user.email, newVerificationCode)
+
+            //console.log(" Numero codigo de verificacion", newVerificationCode) Borra este
+            //console.log("codigo de usuario", user.verificationCode) Borra este
+
+
+            return res.status(200).send({message: 'Verification code resent', success: true})
+        } else{
+            return res.status(400).send({message: 'Verification code still valid',success:false})
+        }
+
+    } catch (err) {
+        console.error(err)
+        return res.status(500).send({message: 'General error resending code',success: false})
+        
     }
 }
