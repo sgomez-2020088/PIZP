@@ -40,7 +40,7 @@ const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
         user: 'pizpcodesender@gmail.com',
-        pass: 'k o a x z b h l q m j q l f w g'  // Cambia esta contraseña por una más segura si es necesario
+        pass: 'k o a x z b h l q m j q l f w g'  
     }
 })
 

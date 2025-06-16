@@ -13,7 +13,7 @@ export const createDefaultAdmin = async () => {
                 name: "Admin",
                 surname: "Default",
                 email: adminEmail,
-                DPI: 1234567891234,
+                DPI: 3852261360101,
                 password: hashedPassword,
                 phone: "123456789",
                 role: "ADMIN",

@@ -34,7 +34,7 @@ const reportSchema = Schema(
     }
 )
 reportSchema.methods.toJSON = function(){
-    const { __v, _id, ...report } = this.toObject()
+    const { __v,  ...report } = this.toObject()
     return report
 }
 
