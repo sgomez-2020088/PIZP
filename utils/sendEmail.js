@@ -33,14 +33,18 @@ export function generateVerificationCode() {
 }
 */
 
+import dotenv from 'dotenv'
+dotenv.config()
+
 import nodemailer from 'nodemailer'
 import crypto from 'crypto'
+
 
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: 'pizpcodesender@gmail.com',
-        pass: 'k o a x z b h l q m j q l f w g'  // Cambia esta contraseña por una más segura si es necesario
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS  
     }
 })
 
