@@ -25,3 +25,7 @@ export const reportValidator = [
     validateErrors
 ]
 
+export const codeValidator = [
+    body('verificationCode', 'Verification code cannot be empty').notEmpty().isLength({min:6, max:6}).withMessage('Verification code must be 6 characters'),
+    validateErrors
+]

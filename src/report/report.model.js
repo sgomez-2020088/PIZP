@@ -5,7 +5,7 @@ const reportSchema = Schema(
         typeCrime: {
             type: String,
             required: [true, 'Type crime is required'],
-            enum: ['asalto', 'secuestro', 'asesinato'],
+            enum: ['Asalto', 'Secuestro', 'Asesinato'],
         },
         address: {
             type: String,
@@ -34,7 +34,7 @@ const reportSchema = Schema(
     }
 )
 reportSchema.methods.toJSON = function(){
-    const { __v, _id, ...report } = this.toObject()
+    const { __v,  ...report } = this.toObject()
     return report
 }
 
