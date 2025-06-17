@@ -16,3 +16,5 @@ api.post('/verifyCode',[codeValidator], verifyCode)
 api.post('/resendCode',resendCode )
 
 export default api
+
+//borra este - Se actualiza ruta auth

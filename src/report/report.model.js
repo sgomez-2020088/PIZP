@@ -40,3 +40,5 @@ reportSchema.methods.toJSON = function(){
 
 
 export default model('Report', reportSchema)
+
+//Borra este de aca - Se actualiza modelo report
