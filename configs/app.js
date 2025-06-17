@@ -35,7 +35,7 @@ export const initServer = async()=> {
         configs(app)
         routes(app)
         app.listen(process.env.PORT)
-        console.log(`Server running in port ${process.env.PORT}`)
+        
     }catch(err){
         console.log('Server init failed', err)
     }
