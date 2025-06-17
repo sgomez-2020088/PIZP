@@ -1,7 +1,5 @@
-
 import mongoose from 'mongoose'
 
-//const uri = 'mongodb+srv://sergitodgomezchico:Palmdrive.t170@cluster0.uubmvlk.mongodb.net/Pizp2025?retryWrites=true&w=majority&appName=Cluster0'
 
 export const connect = async()=>{
     try{
