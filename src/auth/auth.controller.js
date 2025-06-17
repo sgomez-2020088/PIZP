@@ -3,42 +3,6 @@ import { generateJwt } from "../../utils/jwt.js"
 import { sendVerificationEmail } from "../../utils/sendEmail.js"
 import User from "../user/user.model.js"
 
-/*
-export const register = async (req, res) => {
-    try {
-        const data = req.body
-
-        const existingUser = await User.findOne({ DPI: data.DPI })
-        if (existingUser) return res.status(400).send({ success: false, message: "User already exists" })
-
-        const encryptedPassword = await encrypt(data.password)
-
-    
-        const code = Math.random().toString(36).substring(2, 8).toUpperCase()
-        const verificationCodeExpiration = new Date(Date.now() + 2 * 60 * 1000)
-
-    
-        await sendVerificationEmail(data.email, code)
-        console.log("codigo mostrado", code)
-
-        const user = new User({
-            ...data,
-            password: encryptedPassword,
-            role: 'USER',
-            status: false, 
-            verificationCode: code,
-            verificationCodeExpiration
-        })
-
-        await user.save()
-
-        return res.send({ success: true, message: 'Verification code sent to your email' })
-    } catch (err) {
-        console.error(err)
-        return res.status(500).send({ success: false, message: 'General Error', err })
-    }
-}*/ //Borra este
-
 export const register = async (req, res) => {
     try {
         const data = req.body
@@ -58,7 +22,6 @@ export const register = async (req, res) => {
 
             await sendVerificationEmail(data.email, verificationCode)
 
-           // console.log("📤 Nuevo código generado y enviado:", verificationCode) Borra este 
         } else {
             verificationCode = user.verificationCode;
         }
@@ -114,9 +77,6 @@ export const verifyCode = async (req, res) => {
         const user = await User.findOne({ DPI })
         if (!user) return res.status(404).send({ message: 'User not found', success: false })
 
-        // console.log("✅ Código recibido del usuario:", verificationCode) Borra este 
-        // console.log("🗃️  Código guardado en la DB:", user.verificationCode) Borra este 
-
         if (user.verificationCode !== verificationCode) {
             return res.status(400).send({ message: 'Invalid verification code', success: false })
         }
@@ -154,11 +114,6 @@ export const resendCode = async (req, res) =>{
             await user.save()
 
             await sendVerificationEmail(user.email, newVerificationCode)
-
-            //console.log(" Numero codigo de verificacion", newVerificationCode) Borra este
-            //console.log("codigo de usuario", user.verificationCode) Borra este
-
-
             return res.status(200).send({message: 'Verification code resent', success: true})
         } else{
             return res.status(400).send({message: 'Verification code still valid',success:false})
@@ -170,4 +125,3 @@ export const resendCode = async (req, res) =>{
         
     }
 }
-
