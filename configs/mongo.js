@@ -1,4 +1,7 @@
+
 import mongoose from 'mongoose'
+
+//const uri = 'mongodb+srv://sergitodgomezchico:Palmdrive.t170@cluster0.uubmvlk.mongodb.net/Pizp2025?retryWrites=true&w=majority&appName=Cluster0'
 
 export const connect = async()=>{
     try{
@@ -23,8 +26,9 @@ export const connect = async()=>{
         })
 
         await  mongoose.connect(
-            `${process.env.DB_SERVICE}://${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`,
-            //`${process.env.URI_MONGO}`,
+
+            //`${process.env.DB_SERVICE}://${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`,
+            process.env.URI_MONGO,
             {
                 maxPoolSize: 50, 
                 serverSelectionTimeoutMS: 5000 
