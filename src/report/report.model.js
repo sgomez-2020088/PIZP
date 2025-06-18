@@ -5,7 +5,7 @@ const reportSchema = Schema(
         typeCrime: {
             type: String,
             required: [true, 'Type crime is required'],
-            enum: ['Asalto', 'Secuestro', 'Asesinato','Trafico de drogas','Desaparición forzada','Extorsión','Acoso',],
+            enum: ['Asalto', 'Secuestro', 'Homicidio', 'Trafico de drogas', 'Desaparición forzada', 'Extorsión', 'Acoso', 'Violencia doméstica', 'Amenazas', 'Violación'],
         },
         address: {
             type: String,
