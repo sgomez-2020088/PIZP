@@ -65,4 +65,4 @@ userSchema.methods.toJSON = function(){
 export default model('User', userSchema)
 
 
-//Borra este de aca
+//Borra este de aca - Se actualiza modelo user
