@@ -47,4 +47,3 @@ export const deleteReport = async (req, res) => {
     }
 }
 
-//borra este - Se actualiza funcion delete report
