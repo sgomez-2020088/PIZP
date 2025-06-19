@@ -23,7 +23,7 @@ export const addReport = async (req, res) =>{
 export const getReports = async (req, res) => {
     try {
         const reports = await Report.find()
-        .populate('user', 'name surname email')
+        .populate('user', 'name surname email DPI')
         
         return res.status(200).send({ message: 'Reports retrieved successfully', success: true, reports })
     } catch (err) {
@@ -31,6 +31,7 @@ export const getReports = async (req, res) => {
         return res.status(500).send({ message: 'General error retrieving reports', success: false })
     }
 }
+//DPI
 
 export const deleteReport = async (req, res) => {
     try {
@@ -47,4 +48,3 @@ export const deleteReport = async (req, res) => {
     }
 }
 
-//borra este - Se actualiza funcion delete report
