@@ -59,15 +59,22 @@ export const login = async (req, res) => {
         const passwordValid = await checkPassword(user.password, password)
         if (!passwordValid) return res.status(401).send({ success: false, message: 'Invalid credentials' })
 
-        const payload = { uid: user._id, email: user.email, DPI: user.DPI, role: user.role }
+        const payload = { 
+            uid: user._id, 
+            email: user.email,
+            DPI: user.DPI, 
+            role: user.role
+            }
+
         const token = await generateJwt(payload)
 
-        return res.send({ success: true, message: `Welcome ${user.name}`, token})
+        return res.send({ success: true, message: `Welcome ${user.name}`, token, DPI: user.DPI, Role: user.role})
     } catch (err) {
         console.error(err)
-        return res.status(500).send({ success: false, message: "Login error", error: err.message })
+        return res.status(500).send({ success: false, message: "Login error", error: err.message, })
     }
 }
+
 
 export const verifyCode = async (req, res) => {
     try {
