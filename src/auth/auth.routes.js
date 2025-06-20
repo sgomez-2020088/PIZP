@@ -17,4 +17,3 @@ api.post('/resendCode',resendCode )
 
 export default api
 
-//borra este - Se actualiza ruta auth
