@@ -24,6 +24,30 @@ export const getReports = async (req, res) => {
     try {
         const reports = await Report.find()
         .populate('user', 'name surname email DPI')
+
+const updatedReports = reports.map(report => {
+            let color = '#f8d890'
+
+            switch (true) {
+                case ['Secuestro', 'Homicidio', 'Violación', 'Desaparición forzada'].includes(report.typeCrime):
+                    color = '#ff2828'
+                    break
+
+                case ['Asalto', 'Extorsión', 'Trafico de drogas'].includes(report.typeCrime):
+                    color = '#ff8328'
+                    break
+
+                case ['Acoso', 'Amenazas', 'Violencia doméstica'].includes(report.typeCrime):
+                    color = '#ffd128'
+                    break
+            }
+
+            return {
+                ...report.toObject(),
+                severityColor: color
+            }
+        })
+
         
         return res.status(200).send({ message: 'Reports retrieved successfully', success: true, reports })
     } catch (err) {
