@@ -49,7 +49,7 @@ const updatedReports = reports.map(report => {
         })
 
         
-        return res.status(200).send({ message: 'Reports retrieved successfully', success: true, reports })
+        return res.status(200).send({ message: 'Reports retrieved successfully', success: true, updatedReports })
     } catch (err) {
         console.error(err)
         return res.status(500).send({ message: 'General error retrieving reports', success: false })
