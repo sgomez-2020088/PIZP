@@ -11,4 +11,3 @@ api.delete('/delete/:reportId',[validateJwt, isAdmin], deleteReport)
 
 export default api
 
-//Borra este de aca - Se actualiza ruta report
