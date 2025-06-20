@@ -25,6 +25,14 @@ const reportSchema = Schema(
             required: [true, 'Description is required'],
             maxLength: [500, 'Can´t be overcome 500 characters'],
         },
+        colors: {
+        type: [String],
+        default: [
+                "#ffd128", 
+                "#ff8328", 
+                "#ff2828"
+            ]
+        },
         user: {
             type: Schema.Types.ObjectId,
             ref: 'User',
@@ -41,4 +49,3 @@ reportSchema.methods.toJSON = function(){
 
 export default model('Report', reportSchema)
 
-//Borra este de aca - Se actualiza modelo report
