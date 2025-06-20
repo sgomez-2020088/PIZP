@@ -26,12 +26,12 @@ const reportSchema = Schema(
             maxLength: [500, 'Can´t be overcome 500 characters'],
         },
         colors: {
-        type: [String],
-        default: [
-                "#ffd128", 
-                "#ff8328", 
-                "#ff2828"
-            ]
+            type: [String],
+            default: [
+                    "#ffd128", 
+                    "#ff8328", 
+                    "#ff2828"
+                ]
         },
         user: {
             type: Schema.Types.ObjectId,
